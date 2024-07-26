@@ -33,6 +33,9 @@ public class SecurityConfiguration {
                 .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .authorizeHttpRequests(authorize -> authorize
                         .requestMatchers(HttpMethod.POST, "/api/auth/register", "/api/auth/login").permitAll()
+                        .requestMatchers(HttpMethod.POST, "/api/posts").hasRole(ADMIN)
+                        .requestMatchers(HttpMethod.PUT, "/api/posts/**").hasRole(ADMIN)
+                        .requestMatchers(HttpMethod.DELETE, "/api/posts/**").hasRole(ADMIN)
                         .anyRequest().authenticated()
                 )
                 .addFilterBefore(securityFilter, UsernamePasswordAuthenticationFilter.class)
