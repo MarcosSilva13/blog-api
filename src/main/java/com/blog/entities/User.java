@@ -27,6 +27,9 @@ public class User implements UserDetails {
     @Column(nullable = false, length = 100)
     private String password;
 
+    @Column(name = "profile_image")
+    private String profileImage;
+
     @OneToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "role_id", nullable = false)
     private Role role;
@@ -69,6 +72,14 @@ public class User implements UserDetails {
 
     public void setPassword(String password) {
         this.password = password;
+    }
+
+    public String getProfileImage() {
+        return profileImage;
+    }
+
+    public void setProfileImage(String profileImage) {
+        this.profileImage = profileImage;
     }
 
     @Override
