@@ -7,6 +7,7 @@ import com.blog.dtos.userdto.UserResponseDTO;
 import com.blog.entities.Role;
 import com.blog.entities.User;
 import com.blog.exceptions.EmailUsedException;
+import com.blog.mappers.UserMapper;
 import com.blog.repositories.UserRepository;
 import com.blog.security.TokenService;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -22,24 +23,24 @@ public class AuthService {
     private final AuthenticationManager authenticationManager;
     private final TokenService tokenService;
     private final BCryptPasswordEncoder bCryptPasswordEncoder;
+    private final UserMapper userMapper;
 
     public AuthService(UserRepository userRepository, AuthenticationManager authenticationManager,
-                       TokenService tokenService, BCryptPasswordEncoder bCryptPasswordEncoder) {
+                       TokenService tokenService, BCryptPasswordEncoder bCryptPasswordEncoder, UserMapper userMapper) {
         this.userRepository = userRepository;
         this.authenticationManager = authenticationManager;
         this.tokenService = tokenService;
         this.bCryptPasswordEncoder = bCryptPasswordEncoder;
+        this.userMapper = userMapper;
     }
 
     @Transactional
     public UserResponseDTO register(RegisterRequestDTO requestDTO) {
-        if (userRepository.findByEmail(requestDTO.email()).isPresent()) {
+        if (userRepository.existsByEmail(requestDTO.email())) {
             throw new EmailUsedException("O email já está em uso.");
         }
 
-        User user = new User();
-        user.setName(requestDTO.name());
-        user.setEmail(requestDTO.email());
+        User user = userMapper.toUserEntity(requestDTO);
         user.setPassword(bCryptPasswordEncoder.encode(requestDTO.password()));
         user.setRole(new Role(2));
 
