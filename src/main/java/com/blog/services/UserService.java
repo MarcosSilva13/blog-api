@@ -4,7 +4,9 @@ import com.blog.dtos.userdto.PasswordDTO;
 import com.blog.dtos.userdto.UpdateUserRequestDTO;
 import com.blog.dtos.userdto.UserResponseDTO;
 import com.blog.entities.User;
+import com.blog.exceptions.EmailUsedException;
 import com.blog.exceptions.MismatchedPasswordException;
+import com.blog.mappers.UserMapper;
 import com.blog.repositories.UserRepository;
 import com.blog.util.Util;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -16,10 +18,12 @@ public class UserService {
 
     private final UserRepository userRepository;
     private final BCryptPasswordEncoder passwordEncoder;
+    private final UserMapper userMapper;
 
-    public UserService(UserRepository userRepository, BCryptPasswordEncoder passwordEncoder) {
+    public UserService(UserRepository userRepository, BCryptPasswordEncoder passwordEncoder, UserMapper userMapper) {
         this.userRepository = userRepository;
         this.passwordEncoder = passwordEncoder;
+        this.userMapper = userMapper;
     }
 
     public UserResponseDTO getLoggedUser() {
@@ -30,10 +34,19 @@ public class UserService {
     @Transactional
     public UserResponseDTO updateUser(UpdateUserRequestDTO requestDTO) {
         User user = Util.getCurrentUser();
-        user.setName(requestDTO.name());
-        user.setEmail(requestDTO.email());
 
+        if (!user.getEmail().equals(requestDTO.email())) {
+            verifyEmailInUse(requestDTO.email());
+        }
+
+        userMapper.toUpdateUser(requestDTO, user);
         return new UserResponseDTO(userRepository.save(user));
+    }
+
+    private void verifyEmailInUse(String emailToUpdate) {
+        if (userRepository.existsByEmail(emailToUpdate)) {
+            throw new EmailUsedException("O email já está em uso.");
+        }
     }
 
     @Transactional
