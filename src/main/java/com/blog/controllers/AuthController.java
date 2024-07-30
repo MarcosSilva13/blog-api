@@ -5,6 +5,7 @@ import com.blog.dtos.authdto.RegisterRequestDTO;
 import com.blog.dtos.authdto.TokenDTO;
 import com.blog.dtos.userdto.UserResponseDTO;
 import com.blog.services.AuthService;
+import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -23,13 +24,13 @@ public class AuthController {
     }
 
     @PostMapping("/register")
-    public ResponseEntity<UserResponseDTO> register(@RequestBody RegisterRequestDTO requestDTO) {
+    public ResponseEntity<UserResponseDTO> register(@RequestBody @Valid RegisterRequestDTO requestDTO) {
         UserResponseDTO userResponseDTO = authService.register(requestDTO);
         return ResponseEntity.status(HttpStatus.CREATED).body(userResponseDTO);
     }
 
     @PostMapping("/login")
-    public ResponseEntity<TokenDTO> login(@RequestBody LoginRequestDTO requestDTO) {
+    public ResponseEntity<TokenDTO> login(@RequestBody @Valid LoginRequestDTO requestDTO) {
         TokenDTO tokenDTO = authService.login(requestDTO);
         return ResponseEntity.ok(tokenDTO);
     }

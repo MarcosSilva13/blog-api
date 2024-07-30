@@ -4,6 +4,7 @@ import com.blog.dtos.PageResponseDTO;
 import com.blog.dtos.postdto.PostRequestDTO;
 import com.blog.dtos.postdto.PostResponseDTO;
 import com.blog.services.PostService;
+import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -25,13 +26,13 @@ public class PostController {
     }
 
     @PostMapping
-    public ResponseEntity<PostResponseDTO> create(@RequestBody PostRequestDTO requestDTO) {
+    public ResponseEntity<PostResponseDTO> create(@RequestBody @Valid PostRequestDTO requestDTO) {
         PostResponseDTO postResponseDTO = postService.createPost(requestDTO);
         return ResponseEntity.status(HttpStatus.CREATED).body(postResponseDTO);
     }
 
     @PutMapping("/{postId}")
-    public ResponseEntity<PostResponseDTO> update(@PathVariable("postId") Long postId, @RequestBody PostRequestDTO requestDTO) {
+    public ResponseEntity<PostResponseDTO> update(@PathVariable("postId") Long postId, @RequestBody @Valid PostRequestDTO requestDTO) {
         PostResponseDTO postResponseDTO = postService.updatePost(postId, requestDTO);
         return ResponseEntity.ok(postResponseDTO);
     }

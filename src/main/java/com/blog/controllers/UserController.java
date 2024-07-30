@@ -4,6 +4,7 @@ import com.blog.dtos.userdto.PasswordDTO;
 import com.blog.dtos.userdto.UpdateUserRequestDTO;
 import com.blog.dtos.userdto.UserResponseDTO;
 import com.blog.services.UserService;
+import jakarta.validation.Valid;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -24,13 +25,13 @@ public class UserController {
     }
 
     @PutMapping
-    public ResponseEntity<UserResponseDTO> update(@RequestBody UpdateUserRequestDTO requestDTO) {
+    public ResponseEntity<UserResponseDTO> update(@RequestBody @Valid UpdateUserRequestDTO requestDTO) {
         UserResponseDTO userResponseDTO = userService.updateUser(requestDTO);
         return ResponseEntity.ok(userResponseDTO);
     }
 
     @PatchMapping
-    public ResponseEntity<Void> updatePassword(@RequestBody PasswordDTO passwordDTO) {
+    public ResponseEntity<Void> updatePassword(@RequestBody @Valid PasswordDTO passwordDTO) {
         userService.updateUserPassword(passwordDTO);
         return ResponseEntity.ok().build();
     }
