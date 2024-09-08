@@ -1,5 +1,6 @@
-package com.blog.security;
+package com.blog.configuration;
 
+import com.blog.security.SecurityFilter;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpMethod;
