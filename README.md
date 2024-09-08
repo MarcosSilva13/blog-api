@@ -28,5 +28,6 @@
 git clone https://github.com/MarcosSilva13/blog-api.git
 ```
 - Abra a pasta blog-api na IDE IntelliJ e instale as dependências com o Maven.<br>
+- Ajuste o `application-dev.properties` com suas configurações de banco de dados e credenciais.
 - Abra o arquivo `BlogApiApplication.java` e pressione `Shift+F10` para executar, ou clique no icone ▶️ de execução.
-- A aplicação estará disponível no endereço: http://localhost:8080 ou http://localhost:8080/swagger-ui/index.html (para visualizar com o swagger).
+- A aplicação estará disponível no endereço: `http://localhost:8080` ou `http://localhost:8080/swagger-ui/index.html` (para visualizar com o swagger).
