@@ -49,10 +49,10 @@ public class TokenService {
     }
 
     private Instant generateIssuedTime() {
-        return LocalDateTime.now().toInstant(ZoneOffset.of("-03:00"));
+        return LocalDateTime.now().toInstant(ZoneOffset.UTC);
     }
 
     private Instant generateExpirationTime() {
-        return LocalDateTime.now().plusHours(1).toInstant(ZoneOffset.of("-03:00"));
+        return LocalDateTime.now().plusHours(1).toInstant(ZoneOffset.UTC);
     }
 }
