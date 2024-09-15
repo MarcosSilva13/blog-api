@@ -11,7 +11,7 @@ import org.springframework.stereotype.Service;
 
 import java.time.Instant;
 import java.time.LocalDateTime;
-import java.time.ZoneOffset;
+import java.time.ZoneId;
 
 @Service
 public class TokenService {
@@ -49,10 +49,10 @@ public class TokenService {
     }
 
     private Instant generateIssuedTime() {
-        return LocalDateTime.now().toInstant(ZoneOffset.UTC);
+        return LocalDateTime.now().atZone(ZoneId.systemDefault()).toInstant();
     }
 
     private Instant generateExpirationTime() {
-        return LocalDateTime.now().plusHours(1).toInstant(ZoneOffset.UTC);
+        return LocalDateTime.now().plusHours(1).atZone(ZoneId.systemDefault()).toInstant();
     }
 }
