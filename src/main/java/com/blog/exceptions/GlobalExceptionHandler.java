@@ -49,6 +49,7 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
 
     @ExceptionHandler(RuntimeException.class)
     public ResponseEntity<ProblemDetail> runtimeExceptionHandler(RuntimeException ex) {
+        logger.info("erro -> " + ex.getMessage());
         return generateProblemDetail(HttpStatus.INTERNAL_SERVER_ERROR, "Ocorreu um erro no servidor, contate os desenvolvedores.");
     }
 
