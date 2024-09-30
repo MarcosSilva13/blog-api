@@ -6,7 +6,9 @@ import com.blog.entities.Comment;
 import com.blog.entities.Post;
 import com.blog.entities.User;
 import com.blog.mappers.CommentMapper;
+import com.blog.queryfilters.CommentQueryFilter;
 import com.blog.repositories.CommentRepository;
+import com.blog.specifications.CommentSpecs;
 import com.blog.util.Util;
 import jakarta.persistence.EntityNotFoundException;
 import org.springframework.stereotype.Service;
@@ -27,8 +29,8 @@ public class CommentService {
         this.commentMapper = commentMapper;
     }
 
-    public List<CommentResponseDTO> getAll(Long postId) {
-        return commentRepository.findAllByPostId(postId)
+    public List<CommentResponseDTO> getAll(CommentQueryFilter commentQueryFilter) {
+        return commentRepository.findAll(commentQueryFilter.toSpecification())
                 .stream().map(CommentResponseDTO::new).toList();
     }
 

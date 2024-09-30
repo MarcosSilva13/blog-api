@@ -3,6 +3,7 @@ package com.blog.controllers;
 import com.blog.dtos.ErrorDTO;
 import com.blog.dtos.commentdto.CommentRequestDTO;
 import com.blog.dtos.commentdto.CommentResponseDTO;
+import com.blog.queryfilters.CommentQueryFilter;
 import com.blog.services.CommentService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Content;
@@ -40,9 +41,9 @@ public class CommentController {
 
             @ApiResponse(responseCode = "403", description = "Forbidden", content = @Content())
     })
-    @GetMapping("/post/{postId}")
-    public ResponseEntity<List<CommentResponseDTO>> getAll(@PathVariable("postId") Long postId) {
-        List<CommentResponseDTO> commentResponseDTOList = commentService.getAll(postId);
+    @GetMapping("/post")
+    public ResponseEntity<List<CommentResponseDTO>> getAll(CommentQueryFilter commentQueryFilter) {
+        List<CommentResponseDTO> commentResponseDTOList = commentService.getAll(commentQueryFilter);
         return ResponseEntity.ok(commentResponseDTOList);
     }
 
