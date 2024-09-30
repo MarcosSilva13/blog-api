@@ -6,6 +6,7 @@ import com.blog.dtos.postdto.PostResponseDTO;
 import com.blog.entities.Post;
 import com.blog.entities.User;
 import com.blog.mappers.PostMapper;
+import com.blog.queryfilters.PostQueryFilter;
 import com.blog.repositories.PostRepository;
 import com.blog.util.Util;
 import jakarta.persistence.EntityNotFoundException;
@@ -30,9 +31,9 @@ public class PostService {
         this.postMapper = postMapper;
     }
 
-    public PageResponseDTO getAll(int page) {
+    public PageResponseDTO getAll(int page, PostQueryFilter postQueryFilter) {
         PageRequest pageRequest = PageRequest.of(page, PAGE_SIZE);
-        Page<Post> postPaged = postRepository.findAll(pageRequest);
+        Page<Post> postPaged = postRepository.findAll(postQueryFilter.toSpecification(), pageRequest);
 
         int totalPages = postPaged.getTotalPages();
         List<PostResponseDTO> postResponseDTO = postPaged.getContent().stream().map(PostResponseDTO::new).toList();

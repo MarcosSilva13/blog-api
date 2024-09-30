@@ -4,6 +4,7 @@ import com.blog.dtos.ErrorDTO;
 import com.blog.dtos.PageResponseDTO;
 import com.blog.dtos.postdto.PostRequestDTO;
 import com.blog.dtos.postdto.PostResponseDTO;
+import com.blog.queryfilters.PostQueryFilter;
 import com.blog.services.PostService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Content;
@@ -40,8 +41,8 @@ public class PostController {
             @ApiResponse(responseCode = "403", description = "Forbidden", content = @Content())
     })
     @GetMapping
-    public ResponseEntity<PageResponseDTO> getAll(@RequestParam("page") int page) {
-        PageResponseDTO pageResponseDTO = postService.getAll(page);
+    public ResponseEntity<PageResponseDTO> getAll(@RequestParam("page") int page, PostQueryFilter postQueryFilter) {
+        PageResponseDTO pageResponseDTO = postService.getAll(page, postQueryFilter);
         return ResponseEntity.ok(pageResponseDTO);
     }
 
