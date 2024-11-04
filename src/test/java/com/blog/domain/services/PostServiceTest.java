@@ -1,4 +1,4 @@
-package com.blog.services;
+package com.blog.domain.services;
 
 import com.blog.api.dtos.PageResponseDTO;
 import com.blog.api.dtos.postdto.PostRequestDTO;
@@ -8,7 +8,6 @@ import com.blog.api.mappers.PostMapper;
 import com.blog.domain.entities.Post;
 import com.blog.domain.entities.User;
 import com.blog.domain.repositories.PostRepository;
-import com.blog.domain.services.PostService;
 import jakarta.persistence.EntityNotFoundException;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
@@ -51,10 +50,6 @@ class PostServiceTest {
     @Mock
     private SecurityContext securityContext;
 
-    private PostRequestDTO requestDTO;
-
-    private PostResponseDTO responseDTO;
-
     private Post post;
 
     private User user;
@@ -72,9 +67,6 @@ class PostServiceTest {
         post.setTitle("Post de teste");
         post.setContent("Este é o primeiro post apenas para teste");
         post.setUser(user);
-
-        requestDTO = new PostRequestDTO("Post de teste", "Este é o primeiro post apenas para teste");
-        responseDTO = new PostResponseDTO(post);
     }
 
     private void getAuthentication() {
@@ -107,6 +99,9 @@ class PostServiceTest {
     @DisplayName("createPost should create post when successful")
     void createPostShouldCreatePostWhenSuccessful() {
         getAuthentication();
+        PostRequestDTO requestDTO = new PostRequestDTO("Post de teste", "Este é o primeiro post apenas para teste");
+        PostResponseDTO responseDTO = new PostResponseDTO(post);
+
         when(postMapper.toPostEntity(requestDTO)).thenReturn(post);
         when(postRepository.save(any(Post.class))).thenReturn(post);
 
