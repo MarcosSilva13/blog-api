@@ -5,9 +5,9 @@ import com.blog.api.dtos.authdto.RegisterRequestDTO;
 import com.blog.api.dtos.authdto.TokenDTO;
 import com.blog.api.dtos.userdto.UserResponseDTO;
 import com.blog.api.mappers.UserMapper;
-import com.blog.domain.entities.Role;
 import com.blog.domain.entities.User;
 import com.blog.domain.repositories.UserRepository;
+import com.blog.domain.utils.TestUtils;
 import com.blog.infra.exceptions.EmailUsedException;
 import com.blog.infra.security.TokenService;
 import org.junit.jupiter.api.BeforeEach;
@@ -54,12 +54,7 @@ class AuthServiceTest {
 
     @BeforeEach
     void setUp() {
-        user = new User();
-        user.setUserId(1L);
-        user.setName("Marcos");
-        user.setEmail("marcos@gmail.com");
-        user.setRole(new Role(2));
-
+        user = TestUtils.createDefaultUser();
         requestDTO = new RegisterRequestDTO("Marcos", "marcos@gmail.com", "123");
     }
 

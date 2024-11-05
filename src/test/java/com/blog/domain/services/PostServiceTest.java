@@ -8,6 +8,7 @@ import com.blog.api.mappers.PostMapper;
 import com.blog.domain.entities.Post;
 import com.blog.domain.entities.User;
 import com.blog.domain.repositories.PostRepository;
+import com.blog.domain.utils.TestUtils;
 import jakarta.persistence.EntityNotFoundException;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
@@ -56,11 +57,7 @@ class PostServiceTest {
 
     @BeforeEach
     void setUp() {
-        user = new User();
-        user.setUserId(1L);
-        user.setName("Marcos");
-        user.setEmail("marcos@gmail.com");
-        user.setPassword("123");
+        user = TestUtils.createDefaultUser();
 
         post = new Post();
         post.setPostId(1L);
